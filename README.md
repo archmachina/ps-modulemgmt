@@ -1,2 +1,2 @@
-# ps-installer
-PowerShell install helper
+# ps-modulemgmt
+PowerShell module management helper

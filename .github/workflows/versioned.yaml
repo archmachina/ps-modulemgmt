@@ -1,0 +1,27 @@
+name: Versioned
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    name: "Build"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: "Super Linter"
+        uses: github/super-linter@v3
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish
+        shell: pwsh
+        run: |
+          ./Build.ps1 -Stages Build,Publish
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
