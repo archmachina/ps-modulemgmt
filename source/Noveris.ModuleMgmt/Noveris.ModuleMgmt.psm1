@@ -11,6 +11,7 @@ Set-StrictMode -Version 2
 #>
 Function Select-ModuleVersionMatches
 {
+    [OutputType("System.String")]
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true,ValueFromPipeline)]
@@ -24,7 +25,7 @@ Function Select-ModuleVersionMatches
         [Parameter(Mandatory=$false)]
         [ValidateNotNull()]
         [int]$Minor = -1,
-        
+
         [Parameter(Mandatory=$false)]
         [ValidateNotNull()]
         [int]$Patch = -1,
@@ -43,17 +44,17 @@ Function Select-ModuleVersionMatches
             {
                 return
             }
-    
+
             if ($Minor -ge 0 -and $parsed.Minor -ne $Minor)
             {
                 return
             }
-    
+
             if ($Patch -ge 0 -and $parsed.Build -ne $Patch)
             {
                 return
             }
-    
+
             $Version
         } catch {
             if ($StrictParse)
