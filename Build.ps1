@@ -18,7 +18,7 @@ Set-StrictMode -Version 2
 # Modules
 Remove-Module Noveris.ModuleMgmt -EA SilentlyContinue
 Import-Module ./source/Noveris.ModuleMgmt/Noveris.ModuleMgmt.psm1
-Import-Module -Name Noveris.Build -RequiredVersion (Install-PSModuleWithSpec -Name Noveris.Build -Major 0 -Minor 4)
+Import-Module -Name noveris.build -RequiredVersion (Install-PSModuleWithSpec -Name noveris.build -Major 0 -Minor 4)
 
 ########
 # Capture version information

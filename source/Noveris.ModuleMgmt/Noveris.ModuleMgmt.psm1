@@ -93,7 +93,7 @@ Function Install-PSModuleWithSpec
         [switch]$Offline = $false,
 
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
+        [ValidateSet("CurrentUser", "AllUsers")]
         [string]$Scope = "CurrentUser"
     )
 
@@ -102,15 +102,16 @@ Function Install-PSModuleWithSpec
         # If not offline, install the latest version that matches the spec, if it doesn't exist locally
         if (!$Offline)
         {
-
             # Get the modules available online and filter by version spec
             $target = Find-Module -AllVersions -Name $Name |
                 ForEach-Object { $_.Version.ToString() } |
                 Select-ModuleVersionMatches -Major $Major -Minor $Minor -Patch $Patch |
                 Select-Object -First 1
+            Write-Verbose "Find module result: $target"
 
             # Get the local modules
             $installed = Get-Module -ListAvailable -Name $Name | ForEach-Object { $_.Version.ToString() }
+            Write-Verbose ("Found local modules: " + ($installed -join ","))
 
             # If we found a match online, check if it is installed locally
             if (![string]::IsNullOrEmpty($target) -and ($null -eq $installed -or $installed -notcontains $target))
