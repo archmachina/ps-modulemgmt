@@ -102,12 +102,17 @@ Function Install-PSModuleWithSpec
         # If not offline, install the latest version that matches the spec, if it doesn't exist locally
         if (!$Offline)
         {
-            # Get the modules available online and filter by version spec
-            $target = Find-Module -AllVersions -Name $Name |
-                ForEach-Object { $_.Version.ToString() } |
-                Select-ModuleVersionMatches -Major $Major -Minor $Minor -Patch $Patch |
-                Select-Object -First 1
-            Write-Verbose "Find module result: $target"
+            $target = $null
+            try {
+                # Get the modules available online and filter by version spec
+                $target = Find-Module -AllVersions -Name $Name -EA Stop |
+                    ForEach-Object { $_.Version.ToString() } |
+                    Select-ModuleVersionMatches -Major $Major -Minor $Minor -Patch $Patch |
+                    Select-Object -First 1
+                Write-Verbose "Find module result: $target"
+            } catch {
+                Write-Warning "Failed to get online module info for $Name"
+            }
 
             # Get the local modules
             $installed = Get-Module -ListAvailable -Name $Name | ForEach-Object { $_.Version.ToString() }
