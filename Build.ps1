@@ -40,6 +40,10 @@ Invoke-BuildStage -Name "Build" -Filters $Stages -Script {
     Format-TemplateFile -Template source/Noveris.ModuleMgmt.psd1.tpl -Target source/Noveris.ModuleMgmt/Noveris.ModuleMgmt.psd1 -Content @{
         __FULLVERSION__ = $version.Full
     }
+
+    # Test the module manifest
+    Write-Information "Testing module manifest"
+    Test-ModuleManifest source/Noveris.ModuleMgmt/Noveris.ModuleMgmt.psd1
 }
 
 Invoke-BuildStage -Name "Publish" -Filters $Stages -Script {
