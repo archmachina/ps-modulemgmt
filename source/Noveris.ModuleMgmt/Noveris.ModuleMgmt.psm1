@@ -49,6 +49,7 @@ Function Use-PowerShellGallery
 #>
 Function Install-PSModuleFromManifest
 {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory=$true)]
