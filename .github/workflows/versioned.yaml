@@ -5,9 +5,60 @@ on:
       - "v*"
 
 jobs:
-  build:
-    name: "Build"
+  BuildPSCore:
+    name: "Powershell Core on ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Build
+        shell: pwsh
+        run: |
+          ./Build.ps1 -Stages Build,Test
+
+  BuildPSDesktop:
+    name: "Powershell Desktop on windows-latest"
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Build
+        shell: powershell
+        run: |
+          ./Build.ps1 -Stages Build,Test
+
+  Linting:
+    name: "Linting"
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: "Super Linter"
+        uses: github/super-linter@v3
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Publish:
+    name: "Publish"
+    runs-on: ubuntu-latest
+    needs: [BuildPSCore, BuildPSDesktop, Linting]
 
     steps:
       - name: Checkout
