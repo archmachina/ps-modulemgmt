@@ -20,7 +20,7 @@ Remove-Module Noveris.ModuleMgmt -EA SilentlyContinue
 Import-Module ./source/Noveris.ModuleMgmt/Noveris.ModuleMgmt.psm1
 
 Remove-Module noveris.build -EA SilentlyContinue
-Import-Module -Name noveris.build -RequiredVersion (Install-PSModuleWithSpec -Name noveris.build -Major 0 -Minor 4)
+Import-Module -Name noveris.build -RequiredVersion (Install-PSModuleWithSpec -Name noveris.build -Major 0 -Minor 5)
 
 ########
 # Capture version information
