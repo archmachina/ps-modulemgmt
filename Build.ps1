@@ -24,13 +24,16 @@ Import-Module -Name noveris.build -RequiredVersion (Install-PSModuleWithSpec -Na
 
 ########
 # Capture version information
-$version = Get-BuildVersionInfo -Sources @(
+$version = @(
     $Env:GITHUB_REF,
     $Env:BUILD_SOURCEBRANCH,
     $Env:CI_COMMIT_TAG,
     $Env:BUILD_VERSION,
     "v0.1.0"
-)
+) | Select-ValidVersions -First -Required
+
+Write-Information "Version:"
+$version
 
 ########
 # Build stage
@@ -38,7 +41,7 @@ Invoke-BuildStage -Name "Build" -Filters $Stages -Script {
     # Template PowerShell module definition
     Write-Information "Templating Noveris.ModuleMgmt.psd1"
     Format-TemplateFile -Template source/Noveris.ModuleMgmt.psd1.tpl -Target source/Noveris.ModuleMgmt/Noveris.ModuleMgmt.psd1 -Content @{
-        __FULLVERSION__ = $version.Full
+        __FULLVERSION__ = $version.PlainVersion
     }
 
     # Test the module manifest
