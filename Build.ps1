@@ -35,6 +35,10 @@ $version = @(
 Write-Information "Version:"
 $version
 
+Use-BuildDirectories -Directories @(
+    "assets"
+)
+
 ########
 # Build stage
 Invoke-BuildStage -Name "Build" -Filters $Stages -Script {
@@ -50,6 +54,26 @@ Invoke-BuildStage -Name "Build" -Filters $Stages -Script {
 }
 
 Invoke-BuildStage -Name "Publish" -Filters $Stages -Script {
+    $owner = "noveris-inf"
+    $repo = "ps-modulemgmt"
+
+    $releaseParams = @{
+        Owner = $owner
+        Repo = $repo
+        Name = ("Release " + $version.Tag)
+        TagName = $version.Tag
+        Draft = $false
+        Prerelease = $version.IsPrerelease
+        Token = $Env:GITHUB_TOKEN
+    }
+
+    Write-Information "Creating release"
+    $release = New-GithubRelease @releaseParams
+
+    Get-ChildItem assets |
+        ForEach-Object { $_.FullName } |
+        Add-GithubReleaseAsset -Owner $owner -Repo $repo -ReleaseId $release.Id -Token $Env:GITHUB_TOKEN -Verbose
+
     # Publish module
     Publish-Module -Path ./source/Noveris.ModuleMgmt -NuGetApiKey $Env:NUGET_API_KEY
 }
