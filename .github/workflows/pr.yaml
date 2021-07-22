@@ -2,19 +2,15 @@ name: Branch
 on:
   push:
     branches-ignore:
-      - main
+      - "*"
   pull_request:
     branches:
       - main
 
 jobs:
-  BuildPSCore:
-    name: "Powershell Core on ${{ matrix.os }}"
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+  Build:
+    name: "Build"
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -24,21 +20,6 @@ jobs:
 
       - name: Build
         shell: pwsh
-        run: |
-          ./Build.ps1 -Stages Build,Test
-
-  BuildPSDesktop:
-    name: "Powershell Desktop on windows-latest"
-    runs-on: windows-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: true
-
-      - name: Build
-        shell: powershell
         run: |
           ./Build.ps1 -Stages Build,Test
 
