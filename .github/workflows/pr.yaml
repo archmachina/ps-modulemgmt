@@ -1,4 +1,4 @@
-name: Branch
+name: pr
 on:
   push:
     branches-ignore:
@@ -8,8 +8,8 @@ on:
       - main
 
 jobs:
-  Build:
-    name: "Build"
+  pr_main:
+    name: "pr"
     runs-on: ubuntu-latest
 
     steps:
@@ -18,28 +18,7 @@ jobs:
         with:
           submodules: true
 
-      - name: Build
+      - name: pr
         shell: pwsh
         run: |
-          ./Build.ps1 -Stages Build,Test
-
-  Linting:
-    name: "Linting"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: false
-
-      - name: "Script Analyser"
-        shell: pwsh
-        run: |
-          $InformationPreference = "Continue"
-          $ErrorActionPreference = "Stop"
-
-          Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
-          Install-Module PSScriptAnalyzer -Scope CurrentUser
-          Import-Module PSScriptAnalyzer
-          Invoke-ScriptAnalyzer -IncludeDefaultRules -Recurse -EnableExit .
+          ./entrypoint.ps1 pr

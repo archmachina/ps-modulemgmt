@@ -329,7 +329,7 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
-source/Noveris.ModuleMgmt/Noveris.ModuleMgmt.psd1
+source/ModuleMgmt/ModuleMgmt.psd1
 
 package/
 

@@ -1,8 +1,8 @@
-# Module manifest for Noveris.ModuleMgmt
+# Module manifest for ModuleMgmt
 
 @{
     # Script module or binary module file associated with this manifest.
-    RootModule = 'Noveris.ModuleMgmt.psm1'
+    RootModule = 'ModuleMgmt.psm1'
 
     # Version number of this module.
     ModuleVersion = '__FULLVERSION__'
@@ -14,16 +14,16 @@
     )
 
     # ID used to uniquely identify this module
-    GUID = '14fc96ca-4b54-4f34-9d8a-321f75772769'
+    GUID = '66ce6bc1-1c89-4914-808a-6c4929f52fac'
 
     # Author of this module
-    Author = 'Noveris Pty Ltd'
+    Author = 'Jesse Reichman'
 
     # Company or vendor of this module
-    CompanyName = 'Noveris Pty Ltd'
+    CompanyName = 'ArchMachina'
 
     # Copyright statement for this module
-    Copyright = '(c) 2020 Noveris Pty Ltd. All rights reserved.'
+    Copyright = '(c) 2020 Jesse Reichman. All rights reserved.'
 
     # Description of the functionality provided by this module
     Description = 'Module install assistant'
@@ -65,7 +65,7 @@
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
     NestedModules = @(
-        'Noveris.ModuleMgmt.psm1'
+        'ModuleMgmt.psm1'
     )
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
@@ -89,7 +89,7 @@
 
     # List of all modules packaged with this module
     #ModuleList = @(
-    #    'Noveris.ModuleMgmt.psm1'
+    #    'ModuleMgmt.psm1'
     #)
 
     # List of all files packaged with this module
@@ -107,10 +107,10 @@
             )
 
             # A URL to the license for this module.
-            LicenseUri = 'https://github.com/noveris-inf/ps-modulemgmt/blob/main/LICENSE'
+            LicenseUri = 'https://github.com/archmachina/ps-modulemgmt/blob/main/LICENSE'
 
             # A URL to the main website for this project.
-            ProjectUri = 'https://github.com/noveris-inf/ps-modulemgmt'
+            ProjectUri = 'https://github.com/archmachina/ps-modulemgmt'
 
             # A URL to an icon representing this module.
             # IconUri = ''

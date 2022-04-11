@@ -1,4 +1,4 @@
-name: Latest
+name: latest
 on:
   workflow_dispatch:
   push:
@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  Build:
-    name: "Build"
+  latest_main:
+    name: "latest"
     runs-on: ubuntu-latest
 
     steps:
@@ -16,35 +16,7 @@ jobs:
         with:
           submodules: true
 
-      - name: Build
+      - name: latest
         shell: pwsh
         run: |
-          ./Build.ps1 -Stages Build,Test,Upload
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DOCKER_USERNAME: ${{ github.actor }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          DOCKER_REGISTRY: docker.pkg.github.com
-          DOCKER_BASEPATH: ${{ github.repository }}
-          DOCKER_TAGS: "main-latest"
-
-  Linting:
-    name: "Linting"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: false
-
-      - name: "Script Analyser"
-        shell: pwsh
-        run: |
-          $InformationPreference = "Continue"
-          $ErrorActionPreference = "Stop"
-
-          Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
-          Install-Module PSScriptAnalyzer -Scope CurrentUser
-          Import-Module PSScriptAnalyzer
-          Invoke-ScriptAnalyzer -IncludeDefaultRules -Recurse -EnableExit .
+          ./entrypoint.ps1 latest
