@@ -134,7 +134,7 @@ Function Install-PSModuleFromManifest
 
 <#
 #>
-Function Select-ModuleVersionMatches
+Function Select-ModuleVersionMatch
 {
     [OutputType("System.String")]
     [CmdletBinding()]
@@ -232,7 +232,7 @@ Function Install-PSModuleWithSpec
                 # Get the modules available online and filter by version spec
                 $target = Find-Module -AllVersions -Name $Name -EA Stop |
                     ForEach-Object { $_.Version.ToString() } |
-                    Select-ModuleVersionMatches -Major $Major -Minor $Minor -Patch $Patch |
+                    Select-ModuleVersionMatch -Major $Major -Minor $Minor -Patch $Patch |
                     Select-Object -First 1
                 Write-Verbose "Find module result: $target"
             } catch {
@@ -254,7 +254,7 @@ Function Install-PSModuleWithSpec
         # Get the local modules and filter by spec
         $target = Get-Module -ListAvailable -Name $Name |
             ForEach-Object { $_.Version.ToString() } |
-            Select-ModuleVersionMatches -Major $Major -Minor $Minor -Patch $Patch |
+            Select-ModuleVersionMatch -Major $Major -Minor $Minor -Patch $Patch |
             Select-Object -First 1
 
         if ($null -eq $target)
