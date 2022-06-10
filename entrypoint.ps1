@@ -23,7 +23,7 @@ $version
 Invoke-CIProfile -Name $Profile -Steps @{
 
     lint = @{
-        Script = {
+        Steps = {
             Use-PowershellGallery
             Install-Module PSScriptAnalyzer -Scope CurrentUser
             Import-Module PSScriptAnalyzer
@@ -37,7 +37,7 @@ Invoke-CIProfile -Name $Profile -Steps @{
     }
 
     build = @{
-        Script = {
+        Steps = {
             # Template PowerShell module definition
             Write-Information "Templating ModuleMgmt.psd1"
             Format-TemplateFile -Template source/ModuleMgmt.psd1.tpl -Target source/ModuleMgmt/ModuleMgmt.psd1 -Content @{
@@ -63,16 +63,15 @@ Invoke-CIProfile -Name $Profile -Steps @{
     }
 
     pr = @{
-        Dependencies = $("build")
+        Steps = "build"
     }
 
     latest = @{
-        Dependencies = $("build")
+        Steps = "build"
     }
 
     release = @{
-        Dependencies = $("build")
-        Script = {
+        Steps = "build", {
             $owner = "archmachina"
             $repo = "ps-modulemgmt"
 
